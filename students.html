@@ -160,7 +160,8 @@
         <nav>
             <a href="home.html" aria-label="Ir a Inicio"><i class="fas fa-home"></i> Inicio</a>
             <a href="tasks.html" aria-label="Ir a Tareas"><i class="fas fa-tasks"></i> Tareas</a>
-            <a href="reports.html" aria-label="Ir a Reportes"><i class="fas fa-chart-line"></i> Reportes</a>
+            <a href="students.html" aria-label="Ir a Alumnos"><i class="fas fa-user-graduate"></i> Alumnos</a>
+            <a href="IA_Chat.html" aria-label="Ir a Chat de IA"><i class="fas fa-comments"></i> IA Chat</a>
             <a href="settings.html" aria-label="Ir a Configuración"><i class="fas fa-cog"></i> Configuración</a>
         </nav>
     </header>
@@ -244,13 +245,15 @@
                     comportamiento: "Bueno" // Comportamiento inicial
                 };
                 const listaAlumnos = localStorage.getItem('listaAlumnos') ? JSON.parse(localStorage.getItem('listaAlumnos')) : [];
-                listaAlumnos.push(nuevoAlumno); // Agregar nuevo alumno a la lista
-                localStorage.setItem('listaAlumnos', JSON.stringify(listaAlumnos)); // Guardar en localStorage
+                listaAlumnos.push(nuevoAlumno);
+                localStorage.setItem('listaAlumnos', JSON.stringify(listaAlumnos));
                 mostrarAlumnos(); // Actualizar la lista de alumnos
+            } else {
+                alert("Por favor, completa todos los campos.");
             }
         }
 
-        // Llamar a mostrarAlumnos al cargar la página
+        // Mostrar alumnos al cargar la página
         mostrarAlumnos();
     </script>
 </body>
