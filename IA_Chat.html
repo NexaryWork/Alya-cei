@@ -35,6 +35,26 @@
             text-align: center;
         }
 
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar ul li {
+            margin: 10px 0;
+        }
+
+        .sidebar ul li a {
+            color: #BB86FC;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: color 0.3s;
+        }
+
+        .sidebar ul li a:hover {
+            color: #9A68D5;
+        }
+
         #chatContainer {
             flex: 1;
             display: flex;
@@ -152,6 +172,14 @@
 </head>
 <body>
     <div class="sidebar">
+        <h2>Menú</h2>
+        <ul>
+            <li><a href="home.html">Inicio</a></li>
+            <li><a href="IA_Chat.html">Chat con IA</a></li>
+            <li><a href="students.html">Alumnos</a></li>
+            <li><a href="tasks.html">Tareas</a></li>
+            <li><a href="settings.html">Configuración</a></li>
+        </ul>
         <h2>Historial de Conversaciones</h2>
         <select id="chatHistory" size="5">
             <option>No hay conversaciones aún</option>
