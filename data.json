@@ -1,0 +1,20 @@
+{
+    "professores": [
+        {
+            "nombre": "Juan Pérez",
+            "key": "clave123"
+        },
+        {
+            "nombre": "María López",
+            "key": "clave456"
+        },
+        {
+            "nombre": "Carlos Sánchez",
+            "key": "clave789"
+        },
+        {
+            "nombre": "Ana Torres",
+            "key": "claveabc"
+        }
+    ]
+}

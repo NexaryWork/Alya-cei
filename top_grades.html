@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mejores Alumnos - Alya</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #121212; /* Color de fondo oscuro predeterminado */
+            margin: 0;
+            padding: 20px;
+            transition: background-color 0.3s, color 0.3s;
+            color: white; /* Color de texto blanco para todo el body */
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            background-color: #1e1e1e; /* Fondo de la caja en modo oscuro */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        h1 {
+            text-align: center;
+            color: #bb86fc; /* Tono morado claro para título */
+        }
+
+        .lista-alumnos {
+            margin-top: 20px;
+        }
+
+        .alumno {
+            border: 1px solid #444;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            background-color: #292929; /* Fondo de cada alumno en modo oscuro */
+            transition: background-color 0.3s;
+        }
+
+        button {
+            margin-top: 20px;
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #bb86fc; /* Tono morado claro para botón en tema oscuro */
+            color: white; /* Color de texto blanco para el botón */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #d5006d; /* Tono más claro para botón en modo oscuro */
+        }
+
+        .toggle-theme {
+            display: none; /* Escondido ya que el tema oscuro es predeterminado */
+        }
+    </style>
+</head>
+<body class="dark"> <!-- Clase 'dark' aplicada predeterminadamente -->
+
+    <div class="container">
+        <h1>Mejores Alumnos</h1>
+        <div id="lista-mejores" class="lista-alumnos"></div>
+        <button onclick="volver()">Volver a la Página Principal</button>
+    </div>
+
+    <script>
+        function mostrarMejoresAlumnos() {
+            let listaAlumnos = [];
+            try {
+                listaAlumnos = localStorage.getItem('listaAlumnos') ? JSON.parse(localStorage.getItem('listaAlumnos')) : [];
+            } catch (e) {
+                console.error('Error al analizar listaAlumnos:', e);
+                alert('Hubo un problema al cargar la lista de alumnos.');
+                return; // Salir de la función si hay un error
+            }
+
+            // Ordenar la lista de alumnos por calificación en orden descendente
+            listaAlumnos.sort((a, b) => b.calificacion - a.calificacion);
+
+            const contenedorMejores = document.getElementById('lista-mejores');
+            contenedorMejores.innerHTML = ''; // Limpiar el contenedor
+
+            // Mostrar solo los mejores (por ejemplo, los 5 mejores)
+            const mejoresAlumnos = listaAlumnos.slice(0, 5);
+
+            mejoresAlumnos.forEach(alumno => {
+                const divAlumno = document.createElement('div');
+                divAlumno.className = 'alumno';
+                divAlumno.innerHTML = `
+                    <p><strong>Nombre Completo:</strong> ${alumno.nombre}</p>
+                    <p><strong>ID:</strong> ${alumno.id}</p>
+                    <p><strong>Calificación:</strong> ${alumno.calificacion}</p>
+                `;
+                contenedorMejores.appendChild(divAlumno);
+            });
+        }
+
+        function volver() {
+            window.location.href = 'home.html'; // Cambia esto si el nombre de tu archivo de inicio es diferente
+        }
+
+        // Llamar a la función al cargar la página
+        window.onload = mostrarMejoresAlumnos;
+    </script>
+</body>
+</html>

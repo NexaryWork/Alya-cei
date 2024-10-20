@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alumnos - Alya</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #121212;
+            color: #E0E0E0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: #1F1B24;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .logo {
+            color: #BB86FC;
+            font-size: 28px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        nav {
+            display: flex;
+            gap: 30px;
+        }
+
+        nav a {
+            color: #E0E0E0;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #BB86FC;
+        }
+
+        .contenedor {
+            flex: 1;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .seccion {
+            background-color: #1F1B24;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        h2 {
+            margin-bottom: 25px;
+            color: #BB86FC;
+            font-size: 26px;
+            font-weight: 700;
+        }
+
+        .alumno {
+            background-color: #2A2A2A;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nombre {
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        .nombre-reportado {
+            color: #D9534F; /* Color para alumnos con reportes */
+        }
+
+        .boton-ver {
+            background-color: #BB86FC;
+            color: #1F1B24;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .boton-ver:hover {
+            background-color: #9A66E8;
+        }
+
+        footer {
+            background-color: #1F1B24;
+            padding: 20px;
+            text-align: center;
+            color: #BB86FC;
+            box-shadow: 0px -4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        footer p {
+            font-size: 14px;
+        }
+
+        .bienvenida {
+            font-size: 20px;
+            font-weight: 500;
+            color: #E0E0E0;
+        }
+
+        .detalles {
+            display: none;
+            background-color: #2A2A2A;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 10px;
+        }
+
+        .opciones {
+            display: flex;
+            flex-direction: column;
+            margin-top: 10px;
+        }
+
+        .boton-eliminar {
+            background-color: #D9534F;
+        }
+
+        .boton-eliminar:hover {
+            background-color: #C9302C;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">Alya</div>
+        <nav>
+            <a href="home.html" aria-label="Ir a Inicio"><i class="fas fa-home"></i> Inicio</a>
+            <a href="tasks.html" aria-label="Ir a Tareas"><i class="fas fa-tasks"></i> Tareas</a>
+            <a href="reports.html" aria-label="Ir a Reportes"><i class="fas fa-chart-line"></i> Reportes</a>
+            <a href="settings.html" aria-label="Ir a Configuración"><i class="fas fa-cog"></i> Configuración</a>
+        </nav>
+    </header>
+
+    <div class="contenedor">
+        <div class="bienvenida">Bienvenid@ <span id="nombre-profesor"></span></div>
+
+        <section class="seccion">
+            <h2><i class="fas fa-user-graduate"></i> Lista de Alumnos</h2>
+
+            <div id="lista-alumnos"></div>
+
+            <button class="boton-ver" onclick="agregarAlumno()">Agregar Alumno</button>
+        </section>
+    </div>
+
+    <footer>
+        <p>© 2024 Alya - Control de Aula Inteligente</p>
+    </footer>
+
+    <script>
+        // Obtener el nombre del profesor del almacenamiento local
+        const nombreProfesor = localStorage.getItem('nombreProfesor') || 'Profesor';
+        document.getElementById('nombre-profesor').textContent = nombreProfesor;
+
+        // Mostrar la lista de alumnos
+        function mostrarAlumnos() {
+            const listaAlumnos = localStorage.getItem('listaAlumnos') ? JSON.parse(localStorage.getItem('listaAlumnos')) : [];
+            const contenedorAlumnos = document.getElementById('lista-alumnos');
+
+            contenedorAlumnos.innerHTML = ''; // Limpiar el contenedor
+
+            listaAlumnos.forEach((alumno, index) => {
+                const divAlumno = document.createElement('div');
+                const nombreClase = alumno.reportes > 0 ? 'nombre nombre-reportado' : 'nombre'; // Cambiar clase si tiene reportes
+                divAlumno.className = 'alumno';
+                divAlumno.innerHTML = `
+                    <span class="${nombreClase}">${alumno.nombre} (ID: ${alumno.id}) ${alumno.reportes > 0 ? '<i class="fas fa-exclamation-triangle" title="Tiene reportes"></i>' : ''}</span>
+                    <button class="boton-ver" onclick="verDetalles(${index})">Ver Detalles</button>
+                    <div class="detalles" id="detalles-${index}">
+                        <p><strong>Nombre Completo:</strong> ${alumno.nombre}</p>
+                        <p><strong>ID:</strong> ${alumno.id}</p>
+                        <p><strong>Calificación:</strong> ${alumno.calificacion}</p>
+                        <p><strong>Número de Reportes:</strong> ${alumno.reportes}</p>
+                        <p><strong>Faltas:</strong> ${alumno.faltas}</p>
+                        <p><strong>Notas:</strong> ${alumno.notas.join(', ') || 'N/A'}</p>
+                        <p><strong>Comportamiento:</strong> ${alumno.comportamiento}</p>
+                        <div class="opciones">
+                            <button class="boton-eliminar" onclick="eliminarAlumno(${index})">Eliminar de la lista</button>
+                        </div>
+                    </div>
+                `;
+                contenedorAlumnos.appendChild(divAlumno);
+            });
+        }
+
+        function verDetalles(index) {
+            const detalles = document.getElementById(`detalles-${index}`);
+            detalles.style.display = detalles.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function eliminarAlumno(index) {
+            const listaAlumnos = JSON.parse(localStorage.getItem('listaAlumnos'));
+            listaAlumnos.splice(index, 1);
+            localStorage.setItem('listaAlumnos', JSON.stringify(listaAlumnos));
+            mostrarAlumnos(); // Actualizar la lista de alumnos
+        }
+
+        function agregarAlumno() {
+            const nombreCompleto = prompt("Introduce el Nombre Completo del nuevo alumno:");
+            const idAlumno = prompt("Introduce el ID (Número de Lista) del nuevo alumno:");
+
+            if (nombreCompleto && idAlumno) {
+                const nuevoAlumno = {
+                    nombre: nombreCompleto,
+                    id: idAlumno,
+                    calificacion: 100, // Calificación inicial
+                    reportes: 0,       // Reportes iniciales
+                    faltas: 0,         // Faltas iniciales
+                    notas: [],         // Notas iniciales
+                    comportamiento: "Bueno" // Comportamiento inicial
+                };
+                const listaAlumnos = localStorage.getItem('listaAlumnos') ? JSON.parse(localStorage.getItem('listaAlumnos')) : [];
+                listaAlumnos.push(nuevoAlumno); // Agregar nuevo alumno a la lista
+                localStorage.setItem('listaAlumnos', JSON.stringify(listaAlumnos)); // Guardar en localStorage
+                mostrarAlumnos(); // Actualizar la lista de alumnos
+            }
+        }
+
+        // Llamar a mostrarAlumnos al cargar la página
+        mostrarAlumnos();
+    </script>
+</body>
+</html>

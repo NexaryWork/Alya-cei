@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configuración - Alya</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #121212;
+            color: #E0E0E0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: #1F1B24;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .logo {
+            color: #BB86FC;
+            font-size: 28px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        nav {
+            display: flex;
+            gap: 30px;
+        }
+
+        nav a {
+            color: #E0E0E0;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #BB86FC;
+        }
+
+        .contenedor {
+            flex: 1;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .seccion {
+            background-color: #1F1B24;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        h2 {
+            margin-bottom: 25px;
+            color: #BB86FC;
+            font-size: 26px;
+            font-weight: 700;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .form-group textarea, .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #BB86FC;
+            background-color: #1F1B24;
+            color: #E0E0E0;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+        }
+
+        .boton {
+            background-color: #BB86FC;
+            color: #1F1B24;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .boton:hover {
+            background-color: #9A66E8;
+        }
+
+        footer {
+            background-color: #1F1B24;
+            padding: 20px;
+            text-align: center;
+            color: #BB86FC;
+            box-shadow: 0px -4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        footer p {
+            font-size: 14px;
+        }
+
+        .bienvenida {
+            font-size: 20px;
+            font-weight: 500;
+            color: #E0E0E0;
+        }
+
+        .mensaje {
+            font-size: 18px;
+            color: #BB86FC;
+            font-weight: 600;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">Alya</div>
+        <nav>
+            <a href="home.html" aria-label="Ir a Inicio"><i class="fas fa-home"></i> Inicio</a>
+            <a href="tasks.html" aria-label="Ir a Tareas"><i class="fas fa-tasks"></i> Tareas</a>
+            <a href="reports.html" aria-label="Ir a Reportes"><i class="fas fa-chart-line"></i> Reportes</a>
+            <a href="settings.html" aria-label="Ir a Configuración"><i class="fas fa-cog"></i> Configuración</a>
+        </nav>
+    </header>
+
+    <div class="contenedor">
+        <div class="bienvenida">Bienvenid@ <span id="nombre-profesor"></span></div>
+        <div class="mensaje">Aquí puedes configurar las reglas y la lista de alumnos para un mejor control del aula.</div>
+
+        <section class="seccion">
+            <h2><i class="fas fa-cog"></i> Configuración del Aula</h2>
+
+            <div class="form-group">
+                <label for="rules">Reglas del Aula:</label>
+                <textarea id="rules" rows="4" placeholder="Escribe las reglas del aula aquí..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="students">Lista de Alumnos:</label>
+                <textarea id="students" rows="4" placeholder="Escribe los nombres de los alumnos aquí, separados por comas..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="special_students">Alumnos Especiales:</label>
+                <textarea id="special_students" rows="4" placeholder="Escribe los nombres de alumnos con situaciones especiales aquí, separados por comas..."></textarea>
+            </div>
+
+            <button class="boton" onclick="guardarConfiguracion()">Guardar Configuración</button>
+        </section>
+    </div>
+
+    <footer>
+        <p>© 2024 Alya - Control de Aula Inteligente</p>
+    </footer>
+
+    <script>
+        // Obtener el nombre del profesor del almacenamiento local
+        const nombreProfesor = localStorage.getItem('nombreProfesor') || 'Profesor';
+        document.getElementById('nombre-profesor').textContent = nombreProfesor;
+
+        function guardarConfiguracion() {
+            const reglas = document.getElementById('rules').value;
+            const alumnos = document.getElementById('students').value;
+            const alumnosEspeciales = document.getElementById('special_students').value;
+
+            // Guardar configuraciones en localStorage (esto es solo un ejemplo)
+            localStorage.setItem('reglasAula', reglas);
+            localStorage.setItem('listaAlumnos', alumnos);
+            localStorage.setItem('alumnosEspeciales', alumnosEspeciales);
+
+            alert('Configuración guardada con éxito!');
+        }
+    </script>
+
+</body>
+</html>
